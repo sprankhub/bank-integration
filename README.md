@@ -15,10 +15,10 @@ Automatic bank-to-Magento coupling
 
 With Bank Integration, the coupling of bank transactions and unpaid orders is based on both the bank description and the transaction amount. When handling with insufficient data, Bank Integration provides an easy to use manual coupling system as a back-up. Payments made through your bank will be visible in Magento's back-end, giving a complete order/payment overview. 
 
-100% bank support
+Bank support
 -------------
 
-If your bank includes an export-to-file feature, Bank Integration can automatically couple bank transactions to orders. Kinento will customize the module to support your bank as part of your purchase (no extra cost). 
+If your bank includes an export-to-file feature, Bank Integration can automatically couple bank transactions to orders. The module can be customized to support your bank (see Bankintegration/Model/Banks.php). 
 
 Bank Integration: since 2009
 -------------
