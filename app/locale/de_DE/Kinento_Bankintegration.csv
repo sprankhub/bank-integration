@@ -1,0 +1,216 @@
+,
+# From file: Bankintegration/etc/config.xml,
+Bank integration,Bankintegration
+Upload bankdata,Bankdaten hochladen
+Review bankdata,Übersicht Bankdaten
+All items,Alle Elemente
+Processed items,Bearbeitete Elemente
+Unprocessed items,Unbearbeitete Elemente
+Ignored items,Ignorierte Elemente
+Bank/order coupling,Bankeinträge verknüpfen
+Filter settings,Filter Einstellungen
+General settings,Globale Einstellungen
+Bankcoupling email,Bankintegration Email
+,
+# From file: Bankintegration/etc/system.xml,
+Kinento,Kinento
+Bank Integration,Bankintegration
+Show additional information on the bank-order coupling screen,Zusatzinfos zur Bankanweisung anzeigen
+Automatically filter out bank entries with a negative amount,Negative Bankeinträge automatisch herausfiltern
+Do not change the status of an order if the payment is not complete yet,"Status nicht verändern, solange die Zahlung nicht abgeschlossen ist"
+Base the coupling on invoice IDs instead of on order IDs,"Verknüpfung auf Rechnungsnummer, anstatt auf Bestellnummer basieren"
+Export settings,Export Einstellungen
+Include orders from:,Inkludiere Bestellungen von:
+Include orders until:,Inkludiere Bestellungen bis:
+Disable old orders from coupling,Deaktiviere alte Bestellungen vom Verknüpfen
+Email settings,Email Einstellungen
+Automatically send an email after bank-order coupling,Sende automatisches Email nach Verknüpfung der Bankanweisungen
+Send a copy to the following email address,Sende eine Kopie an die folgende Email-Adresse:
+Select an email template,Wähle ein Email-Template
+,
+# From file: Bankintegration/Block/Bind/Main/Grid.php,
+Date,Datum
+Bank name,Bankname
+Bank amount,Bankbetrag
+Type (1),Typ (1)
+Type (2),Typ (2)
+Remarks,Anmerkung
+Bank identifier,Bankbezeichnung
+Coupling certainty,Gewissheit der Verknüpfung
+Change status,Status verändern
+Order name,Bestellname
+Order amount,Bestellbetrag
+Order identifier,Bestellnummer
+Certain,Bestimmt
+Guess,Erraten
+Uncoupled,Entkoppelt
+,
+# From file: Bankintegration/Block/Bind/Main/Widget/Column/Renderer/Bind.php,
+Select an invoice,Wähle eine Rechnung
+Select an order,Wähle eine Bestellung
+,
+# From file: Bankintegration/Block/Bind/Main/Widget/Column/Renderer/Status.php,
+Decouple,Entkuppeln
+Confirm,Bestätigen
+or,oder
+Ignore,Ignorieren
+
+# From file: Bankintegration/Block/Bind/Main/Widget/Column/Renderer/Paidfraction.php
+"Paid fraction","Bezahlt Fraktion"
+,
+# From file: Bankintegration/Block/Bind/Main.php,
+Bankdata to order coupling,Bankdaten zur Bestell-Verknüpfung
+Submit coupled data,Verknüpfte Daten speichern
+Couple automatically,Automatisch verknüpfen
+,
+# From file: Bankintegration/Block/Payments/Main/Grid.php,
+Name,Name
+Account,Account
+Amount,Betrag
+Coupled to order,Verknüpft zu Bestellung
+,
+# From file: Bankintegration/Block/Payments/Payments.php,
+Payments,Zahlungen
+,
+# From file: Bankintegration/Block/Review/All/Grid.php,
+Export selected entries,Ausgewählte Einträge exportieren
+Delete selected entries,Ausgewählte Einträge löschen
+,
+# From file: Bankintegration/Block/Review/All.php,
+Review bankdata (all items),Bankdaten Übersicht (alle Elemente)
+Add manual payment,Manuelle Zahlung hinzufügen
+Export all entries,Alle Einträge exportieren
+Export entries (time interval),Einträge exportieren (Zeit-Intervall)
+Remove _ALL_ stored bankdata,ALLE gespeicherten Bankdaten löschen
+"This will remove _ALL_ bankdata. This includes processed, unproccessed and ignored data (orders will remain unaffected). Are you sure you want to continue?","Dies löscht ALLE Bankdaten – verarbeitete, unverarbeitete und ignorierte Bankdaten (Bestellungen ausgenommen). Sind Sie sicher, dass Sie fortfahren möchten?"
+,
+# From file: Bankintegration/Block/Review/Edit/Form.php,
+Manual payment details:,Details zur manuellen Zahlung:
+Date (as YYYY-MM-DD),Datum (JJJJ-MM-TT)
+Amount (cents behind comma),Betrag (Cents nach dem Komma)
+Type,Typ
+Mutation,Variante
+Identifier (Order/Invoice ID),Nummer (Bestellung/Rechnung)
+Identifier,Nummer
+,
+# From file: Bankintegration/Block/Review/Edit.php,
+Bank integration - Add manual payment,Bankintegration – Allgemeine Einstellungen
+,
+# From file: Bankintegration/Block/Review/Ignored/Grid.php,
+Accept entry,Eintrag akzeptieren
+Accept,Akzeptieren
+,
+# From file: Bankintegration/Block/Review/Ignored.php,
+Review bankdata (ignored items),Bankdaten Übersicht (ignorierte Elemente)
+,
+# From file: Bankintegration/Block/Review/Processed/Grid.php,
+,
+# From file: Bankintegration/Block/Review/Processed.php,
+Review bankdata (processed items),Bankdaten Übersicht (verarbeitete Elemente)
+,
+# From file: Bankintegration/Block/Rules/Edit/Form.php,
+Edit filter rules,Filter-Regeln editieren
+Name of the filter,Filter-Name
+Field to filter,Feld zum filtern
+Text to filter,Text zum filtern
+Complete or partial string,Kompletter oder partieller String
+Exact,Exakt
+Partial,Partiell
+,
+# From file: Bankintegration/Block/Rules/Main/Grid.php,
+ID,ID
+Filter field,Feld filtern
+Filter string,String filtern
+Filter type,Typ filtern
+,
+# From file: Bankintegration/Block/Rules/Main.php,
+Bankdata filter rules,Bankdaten Filterregeln
+Clear all filterdata,Alle Filterdaten löschen
+,
+# From file: Bankintegration/Block/Rules/New/Form.php,
+Add new filter rule,Neue Filterregel hinzufügen
+,
+# From file: Bankintegration/Block/Rules/New.php,
+New filter rule,Neue Filterregel
+,
+# From file: Bankintegration/Block/Settings/Edit/Form.php,
+Remove rule,Regel entfernen
+Add rule,Regel hinzufügen
+Set order number pattern,Schema Bestellnummer festlegen
+Input a regular expression,Reguläre Bezeichnung eingeben
+Set bankfile format,Format Bankfile festlegen
+Select bank template,Bank-Template wählen
+ING Bank (NL),ING Bank (NL)
+Rabobank (NL),Rabobank (NL)
+ABN Amro (NL),ABN Amro (NL)
+Osuuspankki (FI),Osuuspankki (FI)
+VR-Bank (DE),VR-Bank (DE)
+Postbank (DE),Postbank (DE)
+UniCredit (DE),UniCredit (DE)
+Deutsche Bank (DE),Deutsche Bank (DE)
+Kreissparkasse (DE),Kreissparkasse (DE)
+Bank of America (US),Bank of America (US)
+Credit Suisse V11 (CH),Credit Suisse V11 (CH)
+MT942/MT940 (experimental),MT942/MT940 (experimentell)
+Set order status changes,Abänderungen Bestellstatus festlegen
+Orders with status:,Bestellungen mit Status:
+are changed into:,werden abgeändert zu:
+,
+# From file: Bankintegration/Block/Settings/Edit/Renderer.php,
+Examples:,Beispiele:
+\d{9},\d{9}
+9 digits,9 Zeichen
+\d{9}\b,\d{9}\b
+9 digits without any trailing digits/letters,9 Zeichen ohne nachfolgende Zeichen/Buchstaben
+\b\d{9}\b,\b\d{9}\b
+9 digits without any leading or trailing digits/letters,9 Zeichen ohne anführende oder nachfolgende Zeichen/Buchstaben
+\d{9}-\d,\d{9}-\d
+9 digits followed by a hyphen and another digit,9 Zeichen gefolgt von einem Trennstrich und einem weiteren Zeichen
+(\d{9}|\d{8}),(\d{9}|\d{8})
+8 or 9 digits (tries 9 first),8 oder 9 Zeichen (versucht 9 zuerst)
+[a-z]{2}\d{7},[a-z]{2}\d{7}
+2 lowercase characters from the alphabet followed by 7 digits,2 kleingeschriebene Buchstaben des Alphabets gefolgt von 7 Zeichen
+,
+# From file: Bankintegration/Block/Settings/Edit.php,
+Save settings,Einstellungen speichern
+Bank integration - General settings,Bankintegration – Allgemeine Einstellungen
+,
+# From file: Bankintegration/Block/Upload/Edit/Form.php,
+Select a new bankfile to upload,Neues Bankfile zum Hochladen wählen
+,
+# From file: Bankintegration/Block/Upload/Edit/Renderer.php,
+Upload and process,Hochladen und Verarbeiten
+Current banktemplate,Aktuelles Bank-Template
+,
+# From file: Bankintegration/Block/Upload/Edit.php,
+Upload and process new bankdata,Hochladen und Verarbeiten neuer Bankdaten
+,
+# From file: Bankintegration/controllers/BindController.php,
+Status changed.,Status abgeändert.
+Bankdata succesfully submitted.,Bankdaten erfolgreich übermittelt.
+Bankdata successfully coupled.,Bankdaten erfolgreich verknüpft.
+,
+# From file: Bankintegration/controllers/ReviewController.php,
+Manual payment added.,Manuelle Zahlung hinzugefügt.
+Status changed,Status abgeändert.
+Order uncoupled.,Bestellung abgekoppelt.
+Please select one or more items,Wähle bitte ein oder mehrere Elemente.
+,
+# From file: Bankintegration/controllers/RulesController.php,
+Filter entry deleted,Filter Eintrag gelöscht.
+Filter entry saved,Filter Eintrag gespeichert.
+,
+# From file: Bankintegration/controllers/SettingsController.php,
+Order status rule added.,Regel Bestellstatus hinzugefügt.
+Order status rule deleted.,Regel Bestellstatus gelöscht.
+All settings succesfully saved.,Alle Einstellungen erfolgreich gespeichert.
+,
+# From file: Bankintegration/controllers/UploadController.php,
+An error occurred while uploading the bankdata.,Ein Fehler hat sich während des Hochladens der Bankdaten ereignet.
+Bankdata successfully uploaded.,Bankdaten erfolgreich hochgeladen.
+,
+# From file: Bankintegration/Model/Enable.php,
+Disabled,Deaktiviert
+Enabled,Aktiviert
+,
+# From file: Bankintegration/Model/Settings.php,

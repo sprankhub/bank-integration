@@ -1,0 +1,306 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<kinento translate="label" module="bankintegration">
+			<label>Kinento</label>
+			<sort_order>100</sort_order>
+		</kinento>
+	</tabs>
+	<sections>
+		<bankintegration translate="label" module="bankintegration">
+			<label>Bank Integration</label>
+			<tab>kinento</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>400</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<generalsettings translate="label">
+					<label>General settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<extendedview translate="label">
+							<label>Show additional information on the bank-order coupling screen</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</extendedview>
+						<filternegative translate="label">
+							<label>Automatically filter out bank entries with a negative amount</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</filternegative>
+						<baseoninvoices translate="label">
+							<label>The coupling is based on order or invoice IDs?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/idtype</source_model>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</baseoninvoices>
+						<usem2epro translate="label">
+							<label>Translate order IDs using the M2E Pro module:</label>
+							<frontend_type>select</frontend_type>
+							<comment>(enable only if M2E Pro is installed)</comment>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>99</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</usem2epro>
+						<convertutf translate="label">
+							<label>Convert input from UTF-8 format:</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</convertutf>
+						<manualidentifierselection translate="label">
+							<label>Identifiers of manual payments are added by selection (enabled) or typed in manually (disabled):</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</manualidentifierselection>
+						<!--
+						<changepaymenttype translate="label">
+							<label>Also change the payment method after succesful coupling:</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</changepaymenttype>
+						<newpaymenttype translate="label">
+							<label>Change the payment method after succesful coupling into:</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/payments</source_model>
+							<sort_order>31</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</newpaymenttype>
+						-->
+					</fields>
+				</generalsettings>
+				<statussettings translate="label">
+					<label>Status settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>11</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<partpaymentnostatuschange translate="label">
+							<label>Do not change the status of an order if the payment is not complete yet</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</partpaymentnostatuschange>
+						<statusold1 translate="label">
+							<label>Orders with status(es)...</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>bankintegration/statuses</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</statusold1>
+						<statusnew1 translate="label">
+							<label>...will be changed into:</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/statuses</source_model>
+							<sort_order>11</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</statusnew1>
+						<statusold2 translate="label">
+							<label>And orders with status(es)...</label>
+							<comment>(make sure there are no statuses included twice)</comment>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>bankintegration/statuses</source_model>
+							<sort_order>12</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</statusold2>
+						<statusnew2 translate="label">
+							<label>...will be changed into:</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/statuses</source_model>
+							<sort_order>13</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</statusnew2>
+						<statusinvoicenew translate="label">
+							<label>Also change the status of the corresponding invoice into:</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/invoices</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</statusinvoicenew>
+					</fields>
+				</statussettings>
+				<banksettings translate="label">
+					<label>Bank settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>12</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<pattern translate="label">
+							<label>Order number pattern:</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Input as a regular expression (see manual for details)</comment>
+						</pattern>
+						<bank1 translate="label">
+							<label>Select bank (1)</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/banks</source_model>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Select main bank</comment>
+						</bank1>
+						<bank2 translate="label">
+							<label>Select bank (2)</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/banks</source_model>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Select an optional alternative bank</comment>
+						</bank2>
+						<bank3 translate="label">
+							<label>Select bank (3)</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/banks</source_model>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Select an optional alternative bank</comment>
+						</bank3>
+					</fields>
+				</banksettings>
+				<exportsettings translate="label">
+					<label>Export settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>15</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<fromdate translate="label">
+							<label>Include orders from:</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>YYYYMMDD</comment>
+						</fromdate>
+						<todate translate="label">
+							<label>Include orders until:</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>YYYYMMDD</comment>
+						</todate>
+					</fields>
+				</exportsettings>
+				<displaysettings translate="label">
+					<label>Disable old orders from coupling</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>20</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<fromdate translate="label">
+							<label>Include orders from:</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>YYYYMMDD</comment>
+						</fromdate>
+					</fields>
+				</displaysettings>
+				<emailsettings translate="label">
+					<label>Email settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>30</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<emailenable translate="label">
+							<label>Automatically send an email after bank-order coupling</label>
+							<frontend_type>select</frontend_type>
+							<source_model>bankintegration/enable</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</emailenable>
+						<emailcopy translate="label">
+							<label>Send a copy to the following email address</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Leave blank to disable this feature</comment>
+						</emailcopy>
+						<template translate="label">
+							<label>Select an email template</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_email_template</source_model>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Create new templates using 'System-&gt;Transactional emails'</comment>
+						</template>
+					</fields>
+				</emailsettings>
+			</groups>
+		</bankintegration>
+	</sections>
+</config>

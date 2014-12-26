@@ -1,0 +1,10 @@
+<layout>
+	<adminhtml_sales_order_view>
+		<reference name="sales_order_tabs">
+			<action method="addTab">
+				<name>bankintegration</name>
+				<block>bankintegration/tab_payments</block>
+			</action>
+		</reference>
+	</adminhtml_sales_order_view>
+</layout>

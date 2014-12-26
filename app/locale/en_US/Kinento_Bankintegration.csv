@@ -1,0 +1,216 @@
+
+# From file: Bankintegration/etc/config.xml
+"Bank integration","Bank integration"
+"Upload bankdata","Upload bankdata"
+"Review bankdata","Review bankdata"
+"All items","All items"
+"Processed items","Processed items"
+"Unprocessed items","Unprocessed items"
+"Ignored items","Ignored items"
+"Bank/order coupling","Bank/order coupling"
+"Filter settings","Filter settings"
+"General settings","General settings"
+"Bankcoupling email","Bankcoupling email"
+
+# From file: Bankintegration/etc/system.xml
+"Kinento","Kinento"
+"Bank Integration","Bank Integration"
+"Show additional information on the bank-order coupling screen","Show additional information on the bank-order coupling screen"
+"Automatically filter out bank entries with a negative amount","Automatically filter out bank entries with a negative amount"
+"Do not change the status of an order if the payment is not complete yet","Do not change the status of an order if the payment is not complete yet"
+"Base the coupling on invoice IDs instead of on order IDs","Base the coupling on invoice IDs instead of on order IDs"
+"Export settings","Export settings"
+"Include orders from:","Include orders from:"
+"Include orders until:","Include orders until:"
+"Disable old orders from coupling","Disable old orders from coupling"
+"Email settings","Email settings"
+"Automatically send an email after bank-order coupling","Automatically send an email after bank-order coupling"
+"Send a copy to the following email address","Send a copy to the following email address"
+"Select an email template","Select an email template"
+
+# From file: Bankintegration/Block/Bind/Main/Grid.php
+"Date","Date"
+"Bank name","Bank name"
+"Bank amount","Bank amount"
+"Type (1)","Type (1)"
+"Type (2)","Type (2)"
+"Remarks","Remarks"
+"Bank identifier","Bank identifier"
+"Coupling certainty","Coupling certainty"
+"Change status","Change status"
+"Order name","Order name"
+"Order amount","Order amount"
+"Order identifier","Order identifier"
+"Certain","Certain"
+"Guess","Guess"
+"Uncoupled","Uncoupled"
+
+# From file: Bankintegration/Block/Bind/Main/Widget/Column/Renderer/Bind.php
+"Select an invoice","Select an invoice"
+"Select an order","Select an order"
+
+# From file: Bankintegration/Block/Bind/Main/Widget/Column/Renderer/Status.php
+"Decouple","Decouple"
+"Confirm","Confirm"
+"or","or"
+"Ignore","Ignore"
+
+# From file: Bankintegration/Block/Bind/Main/Widget/Column/Renderer/Paidfraction.php
+"Paid fraction","Paid fraction"
+
+# From file: Bankintegration/Block/Bind/Main.php
+"Bankdata to order coupling","Bankdata to order coupling"
+"Submit coupled data","Submit coupled data"
+"Couple automatically","Couple automatically"
+
+# From file: Bankintegration/Block/Payments/Main/Grid.php
+"Name","Name"
+"Account","Account"
+"Amount","Amount"
+"Coupled to order","Coupled to order"
+
+# From file: Bankintegration/Block/Payments/Payments.php
+"Payments","Payments"
+
+# From file: Bankintegration/Block/Review/All/Grid.php
+"Export selected entries","Export selected entries"
+"Delete selected entries","Delete selected entries"
+
+# From file: Bankintegration/Block/Review/All.php
+"Review bankdata (all items)","Review bankdata (all items)"
+"Add manual payment","Add manual payment"
+"Export all entries","Export all entries"
+"Export entries (time interval)","Export entries (time interval)"
+"Remove _ALL_ stored bankdata","Remove _ALL_ stored bankdata"
+"This will remove _ALL_ bankdata. This includes processed, unproccessed and ignored data (orders will remain unaffected). Are you sure you want to continue?","This will remove _ALL_ bankdata. This includes processed, unproccessed and ignored data (orders will remain unaffected). Are you sure you want to continue?"
+
+# From file: Bankintegration/Block/Review/Edit/Form.php
+"Manual payment details:","Manual payment details:"
+"Date (as YYYY-MM-DD)","Date (as YYYY-MM-DD)"
+"Amount (cents behind comma)","Amount (cents behind comma)"
+"Type","Type"
+"Mutation","Mutation"
+"Identifier (Order/Invoice ID)","Identifier (Order/Invoice ID)"
+"Identifier","Identifier"
+
+# From file: Bankintegration/Block/Review/Edit.php
+"Bank integration - Add manual payment","Bank integration - Add manual payment"
+
+# From file: Bankintegration/Block/Review/Ignored/Grid.php
+"Accept entry","Accept entry"
+"Accept","Accept"
+
+# From file: Bankintegration/Block/Review/Ignored.php
+"Review bankdata (ignored items)","Review bankdata (ignored items)"
+
+# From file: Bankintegration/Block/Review/Processed/Grid.php
+
+# From file: Bankintegration/Block/Review/Processed.php
+"Review bankdata (processed items)","Review bankdata (processed items)"
+
+# From file: Bankintegration/Block/Rules/Edit/Form.php
+"Edit filter rules","Edit filter rules"
+"Name of the filter","Name of the filter"
+"Field to filter","Field to filter"
+"Text to filter","Text to filter"
+"Complete or partial string","Complete or partial string"
+"Exact","Exact"
+"Partial","Partial"
+
+# From file: Bankintegration/Block/Rules/Main/Grid.php
+"ID","ID"
+"Filter field","Filter field"
+"Filter string","Filter string"
+"Filter type","Filter type"
+
+# From file: Bankintegration/Block/Rules/Main.php
+"Bankdata filter rules","Bankdata filter rules"
+"Clear all filterdata","Clear all filterdata"
+
+# From file: Bankintegration/Block/Rules/New/Form.php
+"Add new filter rule","Add new filter rule"
+
+# From file: Bankintegration/Block/Rules/New.php
+"New filter rule","New filter rule"
+
+# From file: Bankintegration/Block/Settings/Edit/Form.php
+"Remove rule","Remove rule"
+"Add rule","Add rule"
+"Set order number pattern","Set order number pattern"
+"Input a regular expression","Input a regular expression"
+"Set bankfile format","Set bankfile format"
+"Select bank template","Select bank template"
+"ING Bank (NL)","ING Bank (NL)"
+"Rabobank (NL)","Rabobank (NL)"
+"ABN Amro (NL)","ABN Amro (NL)"
+"Osuuspankki (FI)","Osuuspankki (FI)"
+"VR-Bank (DE)","VR-Bank (DE)"
+"Postbank (DE)","Postbank (DE)"
+"UniCredit (DE)","UniCredit (DE)"
+"Deutsche Bank (DE)","Deutsche Bank (DE)"
+"Kreissparkasse (DE)","Kreissparkasse (DE)"
+"Bank of America (US)","Bank of America (US)"
+"Credit Suisse V11 (CH)","Credit Suisse V11 (CH)"
+"MT942/MT940 (experimental)","MT942/MT940 (experimental)"
+"Set order status changes","Set order status changes"
+"Orders with status:","Orders with status:"
+"are changed into:","are changed into:"
+
+# From file: Bankintegration/Block/Settings/Edit/Renderer.php
+"Examples:","Examples:"
+"\d{9}","\d{9}"
+"9 digits","9 digits"
+"\d{9}\b","\d{9}\b"
+"9 digits without any trailing digits/letters","9 digits without any trailing digits/letters"
+"\b\d{9}\b","\b\d{9}\b"
+"9 digits without any leading or trailing digits/letters","9 digits without any leading or trailing digits/letters"
+"\d{9}-\d","\d{9}-\d"
+"9 digits followed by a hyphen and another digit","9 digits followed by a hyphen and another digit"
+"(\d{9}|\d{8})","(\d{9}|\d{8})"
+"8 or 9 digits (tries 9 first)","8 or 9 digits (tries 9 first)"
+"[a-z]{2}\d{7}","[a-z]{2}\d{7}"
+"2 lowercase characters from the alphabet followed by 7 digits","2 lowercase characters from the alphabet followed by 7 digits"
+
+# From file: Bankintegration/Block/Settings/Edit.php
+"Save settings","Save settings"
+"Bank integration - General settings","Bank integration - General settings"
+
+# From file: Bankintegration/Block/Upload/Edit/Form.php
+"Select a new bankfile to upload","Select a new bankfile to upload"
+
+# From file: Bankintegration/Block/Upload/Edit/Renderer.php
+"Upload and process","Upload and process"
+"Current banktemplate","Current banktemplate"
+
+# From file: Bankintegration/Block/Upload/Edit.php
+"Upload and process new bankdata","Upload and process new bankdata"
+
+# From file: Bankintegration/controllers/BindController.php
+"Status changed.","Status changed."
+"Bankdata succesfully submitted.","Bankdata succesfully submitted."
+"Bankdata successfully coupled.","Bankdata successfully coupled."
+
+# From file: Bankintegration/controllers/ReviewController.php
+"Manual payment added.","Manual payment added."
+"Status changed","Status changed"
+"Order uncoupled.","Order uncoupled."
+"Please select one or more items","Please select one or more items"
+
+# From file: Bankintegration/controllers/RulesController.php
+"Filter entry deleted","Filter entry deleted"
+"Filter entry saved","Filter entry saved"
+
+# From file: Bankintegration/controllers/SettingsController.php
+"Order status rule added.","Order status rule added."
+"Order status rule deleted.","Order status rule deleted."
+"All settings succesfully saved.","All settings succesfully saved."
+
+# From file: Bankintegration/controllers/UploadController.php
+"An error occurred while uploading the bankdata.","An error occurred while uploading the bankdata."
+"Bankdata successfully uploaded.","Bankdata successfully uploaded."
+
+# From file: Bankintegration/Model/Enable.php
+"Disabled","Disabled"
+"Enabled","Enabled"
+
+# From file: Bankintegration/Model/Settings.php

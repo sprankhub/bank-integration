@@ -1,0 +1,276 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Kinento_Bankintegration>
+			<version>2.0.0</version>
+		</Kinento_Bankintegration>
+	</modules>
+	<global>
+		<models>
+			<bankintegration>
+				<class>Kinento_Bankintegration_Model</class>
+				<resourceModel>bankintegration_mysql4</resourceModel>
+			</bankintegration>
+			<bankintegration_mysql4>
+				<class>Kinento_Bankintegration_Model_MySQL4</class>
+				<entities>
+					<bankintegration>
+						<table>bankintegration</table>
+					</bankintegration>
+				</entities>
+			</bankintegration_mysql4>
+			<bankrules>
+				<class>Kinento_Bankintegration_Model</class>
+				<resourceModel>bankrules_mysql4</resourceModel>
+			</bankrules>
+			<bankrules_mysql4>
+				<class>Kinento_Bankintegration_Model_MySQL4</class>
+				<entities>
+					<bankrules>
+						<table>bankrules</table>
+					</bankrules>
+				</entities>
+			</bankrules_mysql4>
+		</models>
+		<helpers>
+			<bankintegration>
+				<class>Kinento_Bankintegration_Helper</class>
+			</bankintegration>
+		</helpers>
+		<blocks>
+			<bankintegration>
+				<class>Kinento_Bankintegration_Block</class>
+			</bankintegration>
+		</blocks>
+		<template>
+			<email>
+				<bankintegration_emailsettings_template translate="label" module="bankintegration">
+					<label>Bankcoupling email</label>
+					<file>bankcoupling.html</file>
+					<type>html</type>
+				</bankintegration_emailsettings_template>
+			</email>
+		</template>
+		<resources>
+			<bankintegration_setup>
+				<setup>
+					<module>Kinento_Bankintegration</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</bankintegration_setup>
+			<bankintegration_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</bankintegration_write>
+			<bankintegration_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</bankintegration_read>
+			<bankrules_setup>
+				<setup>
+					<module>Kinento_Bankintegration</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</bankrules_setup>
+			<bankrules_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</bankrules_write>
+			<bankrules_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</bankrules_read>
+		</resources>
+	</global>
+	<adminhtml>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<bankintegration>
+							<title>Bank Integration</title>
+							<sort_order>700</sort_order>
+							<children>
+								<bankupload>
+									<title>Upload bankdata</title>
+									<sort_order>10</sort_order>
+								</bankupload>
+								<bankview>
+									<title>Review bankdata</title>
+									<sort_order>20</sort_order>
+									<children>
+										<bankviewall>
+											<title>All items</title>
+											<sort_order>10</sort_order>
+										</bankviewall>
+										<bankviewbound>
+											<title>Processed items</title>
+											<sort_order>20</sort_order>
+										</bankviewbound>
+										<bankviewunbound>
+											<title>Unprocessed items</title>
+											<sort_order>30</sort_order>
+										</bankviewunbound>
+										<bankviewneglected>
+											<title>Ignored items</title>
+											<sort_order>40</sort_order>
+										</bankviewneglected>
+									</children>
+								</bankview>
+								<bankbind>
+									<title>Bank/order coupling</title>
+									<sort_order>30</sort_order>
+								</bankbind>
+								<bankfilter>
+									<title>Filter settings</title>
+									<sort_order>40</sort_order>
+								</bankfilter>
+								<banksetup>
+									<title>General settings</title>
+									<sort_order>50</sort_order>
+								</banksetup>
+							</children>
+						</bankintegration>
+						<system>
+							<children>
+								<config>
+									<children>
+										<bankintegration>
+											<title>Kinento settings</title>
+										</bankintegration>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<menu>
+			<bankintegration translate="title" module="bankintegration">
+				<title>Bank integration</title>
+				<sort_order>89</sort_order>
+				<action>bankintegration/bind/index</action>
+				<children>
+					<bankupload translate="title" module="bankintegration">
+						<title>Upload bankdata</title>
+						<sort_order>105</sort_order>
+						<action>bankintegration/upload/index</action>
+					</bankupload>
+					<bankview translate="title" module="bankintegration">
+						<title>Review bankdata</title>
+						<sort_order>110</sort_order>
+						<children>
+							<bankviewall translate="title" module="bankintegration">
+								<title>All items</title>
+								<sort_order>10</sort_order>
+								<action>bankintegration/review/all</action>
+							</bankviewall>
+							<bankviewbound translate="title" module="bankintegration">
+								<title>Processed items</title>
+								<sort_order>20</sort_order>
+								<action>bankintegration/review/processed</action>
+							</bankviewbound>
+							<bankviewunbound translate="title" module="bankintegration">
+								<title>Unprocessed items</title>
+								<sort_order>30</sort_order>
+								<action>bankintegration/bind/index</action>
+							</bankviewunbound>
+							<bankviewneglected translate="title" module="bankintegration">
+								<title>Ignored items</title>
+								<sort_order>40</sort_order>
+								<action>bankintegration/review/ignored</action>
+							</bankviewneglected>
+						</children>
+					</bankview>
+					<bankbind translate="title" module="bankintegration">
+						<title>Bank/order coupling</title>
+						<sort_order>115</sort_order>
+						<action>bankintegration/bind/index</action>
+					</bankbind>
+					<bankfilter translate="title" module="bankintegration">
+						<title>Filter settings</title>
+						<sort_order>120</sort_order>
+						<action>bankintegration/rules/index</action>
+					</bankfilter>
+				</children>
+			</bankintegration>
+		</menu>
+		<layout>
+			<updates>
+				<bankintegration>
+					<file>bankintegration.xml</file>
+				</bankintegration>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<bankintegration>
+					<files>
+						<default>Kinento_Bankintegration.csv</default>
+					</files>
+				</bankintegration>
+			</modules>
+		</translate>
+	</adminhtml>
+	<admin>
+		<routers>
+			<bankintegration>
+				<use>admin</use>
+				<args>
+					<module>Kinento_Bankintegration</module>
+					<frontName>bankintegration</frontName>
+				</args>
+			</bankintegration>
+		</routers>
+	</admin>
+	<default>
+		<bankintegration>
+			<generalsettings>
+				<extendedview>disabled</extendedview>
+				<filternegative>disabled</filternegative>
+				<baseoninvoices>orderid</baseoninvoices>
+				<changepaymenttype>disabled</changepaymenttype>
+				<convertutf>disabled</convertutf>
+				<usem2epro>disabled</usem2epro>
+				<manualidentifierselection>enabled</manualidentifierselection>
+			</generalsettings>
+			<statussettings>
+				<partpaymentnostatuschange>disabled</partpaymentnostatuschange>
+				<statusold1>processing</statusold1>
+				<statusnew1>complete</statusnew1>
+				<statusold2>disabled</statusold2>
+				<statusnew2>disabled</statusnew2>
+				<statusinvoicenew>disabled</statusinvoicenew>
+			</statussettings>
+			<banksettings>
+				<pattern>\b\d{9}\b</pattern>
+				<bank1>ING Bank</bank1>
+				<bank2>disabled</bank2>
+				<bank3>disabled</bank3>
+			</banksettings>
+			<exportsettings>
+				<fromdate>20150101</fromdate>
+				<todate>20200101</todate>
+			</exportsettings>
+			<displaysettings>
+				<fromdate>20140101</fromdate>
+			</displaysettings>
+			<emailsettings>
+				<emailenable>disabled</emailenable>
+				<emailcopy></emailcopy>
+			</emailsettings>
+		</bankintegration>
+	</default>
+</config>
