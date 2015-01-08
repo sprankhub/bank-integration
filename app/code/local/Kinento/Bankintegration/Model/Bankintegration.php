@@ -540,6 +540,11 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			array_pop( $data );
 		}
 
+		// Remove the last line for 'Erste Bank'
+		if ( $bank_name == "Erste Bank" ) {
+			array_pop( $data );
+		}
+
 		// Start the processing of the data per row
 		foreach ( $data as $row ) {
 

@@ -17,11 +17,11 @@
  *
  */
 
-
 class Kinento_Bankintegration_Model_Banks {
 	protected $_options;
 
 	// Banks as they are selectable by the user and displayed
+	// NOTE: To add a new bank, start by adding a new entry below
 	public function getBankArray() {
 		return array(
 			'disabled'          => Mage::helper( 'bankintegration' )->__( 'Disabled' ),
@@ -42,6 +42,7 @@ class Kinento_Bankintegration_Model_Banks {
 			'Commerzbank'       => Mage::helper( 'bankintegration' )->__( 'Commerzbank (DE)' ),
 			'Credit Suisse V11' => Mage::helper( 'bankintegration' )->__( 'Credit Suisse V11 (CH)' ),
 			'Swiss Postfinance' => Mage::helper( 'bankintegration' )->__( 'Swiss Postfinance (CH)' ),
+			'Erste Bank'        => Mage::helper( 'bankintegration' )->__( 'Erste Bank (AT)' ),
 			'Osuuspankki'       => Mage::helper( 'bankintegration' )->__( 'Osuuspankki (FI)' ),
 			'Rietumu'           => Mage::helper( 'bankintegration' )->__( 'Rietumu (LV)' ),
 			'Multibank'         => Mage::helper( 'bankintegration' )->__( 'Multibank (PL)' ),
@@ -59,7 +60,6 @@ class Kinento_Bankintegration_Model_Banks {
 		);
 	}
 
-
 	// Bank templates as they are used to parse imported bank files
 	// # date
 	// # name
@@ -68,6 +68,14 @@ class Kinento_Bankintegration_Model_Banks {
 	// # amount
 	// # mutation
 	// # remarks (including order ID)
+	//
+	// NOTE: To finish adding a new bank, add a new entry below, specifying the order of data as it
+	// appears in the CSV file of the bank (e.g. '8 5 3 4 6 0 9'), the separator used in the CSV-file
+	// in between slashes (e.g. '/;/' for a semicolon), whether or not the first line should be
+	// skipped (true) or not (false), and which characters to delete (e.g. '"' to delete double-
+	// quotes).
+	// Optionally also edit Bankintegration.php in case your bank-file is special (e.g. multiple
+	// lines that need to be skipped or lines that need to be concatenated).
 	//
 	public function getBankTemplates() {
 		return array(
@@ -88,6 +96,7 @@ class Kinento_Bankintegration_Model_Banks {
 			array( 'Commerzbank',       '0 3 8 2 4 5 3',       '/;/'    , true,  '"' ),
 			array( 'Credit Suisse V11', '5 4 1 0 3 10 2',      '/;/'    , false, ''  ),
 			array( 'Swiss Postfinance', '0 7 2 4 5 6 1',       '/;/'    , true,  '"' ),
+			array( 'Erste Bank',        '1 3 6 0 2 99 4',      '/;/'    , true,  '"' ),
 			array( 'Osuuspankki',       '0 5 8 3 2 4 9',       '/;/'    , true,  '"' ),
 			array( 'Rietumu',           '0 1 2 3 4 5 6',       '/;/'    , false, ''  ),
 			array( 'Multibank',         '0 4 5 2 7 6 3',       '/;/'    , true,  ''  ),

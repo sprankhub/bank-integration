@@ -17,14 +17,14 @@
  * Installation guide & FAQ: see "manual.pdf"
  *
 
+Version 2.0.1
+- Added support for the 'Erste Bank (AT)' format
+
 Version 2.0.0
 - Kinento Bank Integration is now a community-supported open-source module
 - The module is no longer maintained by Kinento
 - The module is freely available under the MIT license
 - Added the possibility to manually input order IDs rather then selecting them from a (long) list
-
-Version 1.4.2
-- Added support for the 'Erste Bank (AT)' format
 
 Version 1.4.1
 - Improved support for the 'ISO20022 (camt.054)' format
