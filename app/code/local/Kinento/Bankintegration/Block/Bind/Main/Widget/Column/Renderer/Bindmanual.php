@@ -25,7 +25,7 @@ class Kinento_Bankintegration_Block_Bind_Main_Widget_Column_Renderer_Bindmanual 
 
 	public function render( Varien_Object $row ) {
 		if ( $row->getStatus() == 'unbound' ) {
-			$form = '<form action="'.$this->getUrl( '*/*/manualBind/id/'.$row->getId().'' ).'" method="post"><input type="text" name="bind" size="16"><input name="form_key" type="hidden" value="'.Mage::getSingleton( 'core/session' )->getFormKey().'"/></input><input type="submit" value="OK"></form>';
+			$form = '<form action="'.$this->getUrl( '*/*/manualBindCheck/id/'.$row->getId().'' ).'" method="post"><input type="text" name="bind" size="16"><input name="form_key" type="hidden" value="'.Mage::getSingleton( 'core/session' )->getFormKey().'"/></input><input type="submit" value="OK"></form>';
 		}
 		else {
 			$form = '';

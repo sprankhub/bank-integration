@@ -56,6 +56,45 @@ class Kinento_Bankintegration_BindController extends Mage_Adminhtml_Controller_A
 		$this->getResponse()->setRedirect( $this->getUrl( '*/*/' ) );
 	}
 
+	// Same as above, but now first performs a check whether the order meets the criteria
+	public function manualBindCheckAction() {
+		$entryId = $this->getRequest()->getParam( 'id', false );
+
+		// Get bankdata
+		$bankmodel = Mage::getModel( 'bankintegration/bankintegration' );
+		$bankitems = $bankmodel->getCollection()->addFieldToFilter( 'entry_id', $entryId )->getItems();
+		$bankitem = reset( $bankitems );
+
+		// Get orders
+		$orderdata = Mage::getResourceModel( 'sales/order_collection' );
+		$orders = $orderdata->addFieldToFilter( 'increment_id', $_POST['bind'] )
+			->joinAttribute( 'billing_firstname', 'order_address/firstname', 'billing_address_id' )
+			->joinAttribute( 'billing_lastname', 'order_address/lastname', 'billing_address_id' )
+			->getItems();
+		if (empty($orders)) {
+			Mage::getSingleton( 'adminhtml/session' )->addError( Mage::helper( 'bankintegration' )->__( 'Unknown Magento order ID' ) );
+		}
+		$order = reset( $orders );
+
+		// Compute the total payment so far
+		$totalamount = 0;
+		$sameorderpayments = Mage::getModel( 'bankintegration/bankintegration' )->getCollection()->addFieldToFilter( 'bindorder', $order->getIncrementId() )->getItems();
+		foreach ( $sameorderpayments as $bankitem ) {
+			$totalamount = $totalamount + $bankitem->getAmount();
+		}
+
+		// Only continue if the total is below 100%
+		if ($totalamount < $order->getGrandTotal()) {
+
+			// Process the order
+			$bankmodel->binddata( $order, $bankitem, 'certain' );
+			Mage::getSingleton( 'adminhtml/session' )->addSuccess( Mage::helper( 'bankintegration' )->__( 'Coupled manually.' ) );
+		} else {
+			Mage::getSingleton( 'adminhtml/session' )->addError( Mage::helper( 'bankintegration' )->__( 'Not coupled, order is already paid.' ) );
+		}
+		$this->getResponse()->setRedirect( $this->getUrl( '*/*/' ) );
+	}
+
 	// Function to decouple or confirm automatic and manually bound bankdata
 	public function changeAction() {
 		$entryId = $this->getRequest()->getParam( 'id', false );
