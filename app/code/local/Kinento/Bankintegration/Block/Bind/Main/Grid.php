@@ -36,6 +36,7 @@ class Kinento_Bankintegration_Block_Bind_Main_Grid extends Mage_Adminhtml_Block_
 	}
 
 	protected function _prepareColumns() {
+		$minimal = Mage::getStoreConfig( 'bankintegration/generalsettings/minimalview' );
 		$extended = Mage::getStoreConfig( 'bankintegration/generalsettings/extendedview' );
 		$usem2epro = Mage::getStoreConfig( 'bankintegration/generalsettings/usem2epro' );
 
@@ -154,15 +155,17 @@ class Kinento_Bankintegration_Block_Bind_Main_Grid extends Mage_Adminhtml_Block_
 				'sortable'      => false,
 			) );
 
-		$this->addColumn( 'bindname', array(
-				'header'        => Mage::helper( 'bankintegration' )->__( 'Order name' ),
-				'width'         => '200px',
-				'type'          => 'select',
-				'index'         => 'type',
-				'renderer'      => new Kinento_Bankintegration_Block_Bind_Main_Widget_Column_Renderer_Bind(),
-				'filter'        => false,
-				'sortable'      => false,
-			) );
+		if ( $minimal == 'disabled' ) {
+			$this->addColumn( 'bindname', array(
+					'header'        => Mage::helper( 'bankintegration' )->__( 'Order name' ),
+					'width'         => '200px',
+					'type'          => 'select',
+					'index'         => 'type',
+					'renderer'      => new Kinento_Bankintegration_Block_Bind_Main_Widget_Column_Renderer_Bind(),
+					'filter'        => false,
+					'sortable'      => false,
+				) );
+		}
 
 		$this->addColumn( 'bindnamemanual', array(
 				'header'        => Mage::helper( 'bankintegration' )->__( 'Manually type an order/invoice ID' ),
@@ -205,15 +208,17 @@ class Kinento_Bankintegration_Block_Bind_Main_Grid extends Mage_Adminhtml_Block_
 				'sortable'      => false,
 			) );
 */
-		$this->addColumn( 'paymentstatus', array(
-				'header'        => Mage::helper( 'bankintegration' )->__( 'Paid fraction' ),
-				'width'         => '50px',
-				'type'          => 'action',
-				'getter'        => 'getEntryId',
-				'renderer'      => new Kinento_Bankintegration_Block_Bind_Main_Widget_Column_Renderer_Paidfraction(),
-				'filter'        => false,
-				'sortable'      => false,
-			) );
+		if ( $minimal == 'disabled' ) {
+			$this->addColumn( 'paymentstatus', array(
+					'header'        => Mage::helper( 'bankintegration' )->__( 'Paid fraction' ),
+					'width'         => '50px',
+					'type'          => 'action',
+					'getter'        => 'getEntryId',
+					'renderer'      => new Kinento_Bankintegration_Block_Bind_Main_Widget_Column_Renderer_Paidfraction(),
+					'filter'        => false,
+					'sortable'      => false,
+				) );
+		}
 
 		return parent::_prepareColumns();
 	}

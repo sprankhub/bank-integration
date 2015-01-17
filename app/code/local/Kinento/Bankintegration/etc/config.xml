@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Kinento_Bankintegration>
-			<version>2.0.1</version>
+			<version>2.1.0</version>
 		</Kinento_Bankintegration>
 	</modules>
 	<global>
@@ -239,6 +239,7 @@
 		<bankintegration>
 			<generalsettings>
 				<extendedview>disabled</extendedview>
+				<minimalview>disabled</minimalview>
 				<filternegative>disabled</filternegative>
 				<baseoninvoices>orderid</baseoninvoices>
 				<changepaymenttype>disabled</changepaymenttype>
