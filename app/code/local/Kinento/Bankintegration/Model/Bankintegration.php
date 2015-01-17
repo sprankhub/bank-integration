@@ -915,25 +915,25 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 
 		// Get the settings
 		$name_of_main_bank = Mage::getStoreConfig( 'bankintegration/banksettings/bank1', $store );
-		$collection = Mage::getModel( 'bankintegration/bankintegration' )->getCollection();
+		$bankcollection = Mage::getModel( 'bankintegration/bankintegration' )->getCollection();
 		$baseonid = Mage::getStoreConfig( 'bankintegration/generalsettings/baseoninvoices' );
 		$usem2epro = Mage::getStoreConfig( 'bankintegration/generalsettings/usem2epro', $store );
 
 		// Iterate over all bank items
-		$bankmodel = $collection->addFieldToFilter( 'status', 'unbound' );
+		$bankmodel = $bankcollection->addFieldToFilter( 'status', 'unbound' );
 		$bankitems = $bankmodel->getItems();
 		foreach ( $bankitems as $bankitem ) {
-			Mage::log( '[kinento-bankintegration] Processing bank-item with ID:'.$bankitem->getIdentifier(), null, 'kinento.log', true );
+			Mage::log( '[kinento-bankintegration] Processing bank-item with ID: '.$bankitem->getIdentifier(), null, 'kinento.log', true );
 			$found = 0;
 			$amount = $bankitem->getAmount();
 
 			// Prepare the collections based on invoices or orders or both
 			$idtypes = array();
-			if ( $baseonid == 'invoiceid' || $baseonid == 'orderandinvoiceid' ) {
-				array_push( $idtypes, 'invoice' );
-			}
 			if ( $baseonid == 'orderid' || $baseonid == 'orderandinvoiceid' ) {
 				array_push( $idtypes, 'order' );
+			}
+			if ( $baseonid == 'invoiceid' || $baseonid == 'orderandinvoiceid' ) {
+				array_push( $idtypes, 'invoice' );
 			}
 			foreach ( $idtypes as $idtype ) {
 				if ( $idtype == 'order' ) {
@@ -985,6 +985,7 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 								$found = 1;
 								if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
 								else { $order = reset( $orders ); }
+								Mage::log( '[kinento-bankintegration] Found match (ID and amount) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
 								$this->bindorder( $order, $bankitem, 'certain' );
 							}
 
@@ -997,6 +998,7 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 									$found = 1;
 									if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
 									else { $order = reset( $orders ); }
+									Mage::log( '[kinento-bankintegration] Found match (ID only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
 									$this->bindorder( $order, $bankitem, 'guess' );
 								}
 								else {
@@ -1009,6 +1011,7 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 										$found = 1;
 										if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
 										else { $order = reset( $orders ); }
+										Mage::log( '[kinento-bankintegration] Found match (amount only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
 										$this->bindorder( $order, $bankitem, 'guess' );
 									}
 								}
@@ -1028,6 +1031,7 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 						$found = 1;
 						if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
 						else { $order = reset( $orders ); }
+						Mage::log( '[kinento-bankintegration] Found match (amount only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
 						$this->bindorder( $order, $bankitem, 'guess' );
 					}
 				}
