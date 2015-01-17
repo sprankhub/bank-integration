@@ -58,7 +58,7 @@ Visualisation and feedback:
 Locale: 
 - Translation files provided in English and German. 
 
-Bank Support in version 2.0.1
+Bank Support in version 2.1.0
 -------------
 
 - ING Bank (NL) 

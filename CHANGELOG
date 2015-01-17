@@ -17,6 +17,11 @@
  * Installation guide & FAQ: see "manual.pdf"
  *
 
+Version 2.1.0
+- Added a new option to show a minimal amount of information on the bank-coupling screen (to improve performance)
+- Improved logging when coupling data into Kinento.log
+- Added a check based on the total amount paid when coupling manually
+
 Version 2.0.1
 - Added support for the 'Erste Bank (AT)' format
 
