@@ -3,7 +3,7 @@
     <modules>
         <Kinento_Bankintegration>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </Kinento_Bankintegration>
     </modules>
 </config>
