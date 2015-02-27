@@ -1,0 +1,7 @@
+app/code/community/Kinento/Bankintegration/ app/code/community/Kinento/Bankintegration/
+app/design/adminhtml/default/default/layout/bankintegration.xml app/design/adminhtml/default/default/layout/bankintegration.xml
+app/etc/modules/Kinento_Bankintegration.xml app/etc/modules/Kinento_Bankintegration.xml
+app/locale/de_DE/Kinento_Bankintegration.csv app/locale/de_DE/Kinento_Bankintegration.csv
+app/locale/de_DE/template/email/bankcoupling.html app/locale/de_DE/template/email/bankcoupling.html
+app/locale/en_US/Kinento_Bankintegration.csv app/locale/en_US/Kinento_Bankintegration.csv
+app/locale/en_US/template/email/bankcoupling.html app/locale/en_US/template/email/bankcoupling.html
