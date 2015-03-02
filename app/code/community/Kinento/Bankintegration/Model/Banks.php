@@ -57,6 +57,7 @@ class Kinento_Bankintegration_Model_Banks {
 			'MT94x'             => Mage::helper( 'bankintegration' )->__( 'MT942/MT940' ),
 			'ISO 20022'         => Mage::helper( 'bankintegration' )->__( 'ISO 20022' ),
 			'camt.054'          => Mage::helper( 'bankintegration' )->__( 'ISO 20022 (camt.054)' ),
+			'Volksbank'         => Mage::helper( 'bankintegration' )->__( 'Volksbank' ),
 		);
 	}
 
@@ -109,6 +110,7 @@ class Kinento_Bankintegration_Model_Banks {
 			array( 'HSBC Bank',         '18 10 9 1 14 12 11',  '/,/'    , true,  '"' ),
 			array( 'Maybank',           '4 11 99 0 12 5 9',    '/\^/'   , true,  ''  ),
 			array( 'default',           '0 1 2 3 4 5 6',       '/","/'  , false, '"' ),
+			array( 'Volksbank',         '0 3 5 4 8 4 6',       '/;/'    , false, '"' ),
 		);
 	}
 
