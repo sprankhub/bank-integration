@@ -516,6 +516,53 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			#array_pop( $data );
 		}
 
+		// Remove the first 14 and the last 3 lines, delete the line feeds, filter the negative entries for the 'Volksbank'
+		if ( $bank_name == "Volksbank" ) {
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_shift($data);
+            array_pop($data);
+            array_pop($data);
+            array_pop($data);
+            $newData = array();
+            $i = -10;
+            foreach ($data as $index => $row) {
+                $row = trim($row);
+                if (substr($row, -1, 1) !== '"' and substr($row, -1, 1) !== ';' and $i == -10) {
+                    $newData[] = $row;
+                    $i = count($newData) - 1;
+                } elseif (substr($row, -1, 1) !== '"' and substr($row, -1, 1) !== ';' and $i !== -10) {
+                    $newData[$i] = $newData[$i] . ' ' . $row;
+                } elseif ((substr($row, -1, 1) == '"' or substr($row, -1, 1) == ';') and $i == -10) {
+                    $newData[] = $row;
+                } elseif ((substr($row, -1, 1) == '"' or substr($row, -1, 1) == ';') and $i !== -10) {
+                    $newData[$i] = $newData[$i] . ' ' . $row;
+                    $i = -10;
+                }
+            }
+            $data = array();
+            if ($filternegative == 'enabled') {
+                foreach ($newData as $row) {
+                    if (substr($row, -2, 1) != 'S') {
+                        $data[] = $row;
+                    }
+                }
+            } else {
+                $data = $newData;
+            }
+        }
+
 		// Remove the first 8 lines for the 'Postbank (2)'
 		if ( $bank_name == "Postbank (2)" ) {
 			array_shift( $data );
