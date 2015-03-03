@@ -536,8 +536,6 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
             array_pop($data);
             $newData = array();
             $i = -10;
-            echo '<pre>';
-            var_dump($data);
             foreach ($data as $index => $row) {
                 $row = trim($row);
                 if (substr($row, -1, 1) !== '"' and substr($row, -1, 1) !== ';' and $i == -10) {
@@ -562,8 +560,6 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
             } else {
                 $data = $newData;
             }
-            echo '<pre>';
-            var_dump($newData);
         }
 
 		// Remove the first 8 lines for the 'Postbank (2)'
