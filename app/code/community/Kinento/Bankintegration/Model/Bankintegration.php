@@ -974,170 +974,176 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			$found = 0;
 			$amount = $bankitem->getAmount();
 
-			// Prepare the collections based on invoices or orders or both
-			$idtypes = array();
-			if ( $baseonid == 'orderid' || $baseonid == 'orderandinvoiceid' ) {
-				array_push( $idtypes, 'order' );
-			}
-			if ( $baseonid == 'invoiceid' || $baseonid == 'orderandinvoiceid' ) {
-				array_push( $idtypes, 'invoice' );
-			}
-			foreach ( $idtypes as $idtype ) {
-				if ( $idtype == 'order' ) {
-					$collectionname = 'sales/order_grid_collection';
-				}
-				else {
-					$collectionname = 'sales/order_invoice_grid_collection';
-				}
+            // Prepare the collections based on invoices or orders or both
+            $idtypes = array();
+            if ( $baseonid == 'orderid' || $baseonid == 'orderandinvoiceid' ) {
+                array_push( $idtypes, 'order' );
+            }
+            if ( $baseonid == 'invoiceid' || $baseonid == 'orderandinvoiceid' ) {
+                array_push( $idtypes, 'invoice' );
+            }
 
-				// Check whether there is a bank identifier or not
-				if ( $bankitem->getIdentifier() != ' ' && $bankitem->getIdentifier() != '' ) {
-					$identifiers = array();
+            if ( $bankitem->getIdentifier() != ' ' && $bankitem->getIdentifier() != '' ) {
+                // Check for IDENTIFIER and AMOUNT
+                foreach ( $idtypes as $idtype ) {
+                    if ($idtype == 'order') {
+                        $collectionname = 'sales/order_grid_collection';
+                    } else {
+                        $collectionname = 'sales/order_invoice_grid_collection';
+                    }
+                    $identifiers = $this-> getIdentifiers($bankitem, $name_of_main_bank, $usem2epro);
+                    // Iterate over all the identifiers (normal: just one, Banco Monex: multiple)
+                    foreach ( $identifiers as $identifier ) {
+                        $collection = Mage::getResourceModel( $collectionname );
+                        $datacollection = $collection->addFieldToFilter( 'increment_id', $identifier )->addFieldToFilter( 'grand_total', $amount );
+                        $items = $datacollection->getItems();
+                        if ( !empty( $items ) ) {
+                            if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $items )->getOrderIncrementId() ); }
+                            else { $order = reset( $items ); }
+                            Mage::log( '[kinento-bankintegration] Found match (ID and amount) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
+                            if ($this->bindorder( $order, $bankitem, 'certain' )) {
+                                return;
+                            }
+                        }
+                    }
+                }
 
-					// Banco Monex: Get a list of order IDs from the customer ID
-					if ( "Banco Monex" == $name_of_main_bank ) {
-						$customerid = $bankitem->getIdentifier();
-						$orders = Mage::getResourceModel('sales/order_collection')
-							->addFieldToSelect('*')
-							->addFieldToFilter('customer_id', $customerid )
-							->getItems();
-						foreach ( $orders as $order ) {
-							$identifiers[] = $order->getIncrementId();
-						}
-					}
+                // Check for IDENTIFIER but not AMOUNT
+                foreach ( $idtypes as $idtype ) {
+                    if ($idtype == 'order') {
+                        $collectionname = 'sales/order_grid_collection';
+                    } else {
+                        $collectionname = 'sales/order_invoice_grid_collection';
+                    }
+                    $identifiers = $this-> getIdentifiers($bankitem, $name_of_main_bank, $usem2epro);
+                    // Iterate over all the identifiers (normal: just one, Banco Monex: multiple)
+                    foreach ( $identifiers as $identifier ) {
+                        $collection = Mage::getResourceModel( $collectionname );
+                        $datacollection = $collection->addFieldToFilter( 'increment_id', $identifier );
+                        $items = $datacollection->getItems();
+                        if ( !empty( $items ) ) {
+                            if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $items )->getOrderIncrementId() ); }
+                            else { $order = reset( $items ); }
+                            Mage::log( '[kinento-bankintegration] Found match (ID only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
+                            if ($this->bindorder( $order, $bankitem, 'guess' )) {
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
 
-					// Normal processing
-					else {
+            foreach ( $idtypes as $idtype ) {
+                if ($idtype == 'order') {
+                    $collectionname = 'sales/order_grid_collection';
+                } else {
+                    $collectionname = 'sales/order_invoice_grid_collection';
+                }
+                // Check for AMOUNT but not for IDENTIFIER
+                $collection = Mage::getResourceModel($collectionname);
+                $datacollection = $collection->addFieldToFilter('grand_total', $amount);
+                $items = $datacollection->getItems();
+                if (!empty($items)) {
+                    if ($idtype == 'invoice') {
+                        $order = Mage::getModel('sales/order')->loadByIncrementId(reset($items)->getOrderIncrementId());
+                    } else {
+                        $order = reset($items);
+                    }
+                    Mage::log('[kinento-bankintegration] Found match (amount only) with order ID: ' . $order->getIncrementId(), null, 'kinento.log', true);
+                    $this->bindorder($order, $bankitem, 'guess');
+                }
+            }
 
-						// Translate in case of using the M2E Pro module
-						if ( $usem2epro == 'enabled' ) {
-							Mage::log( '[kinento-bankintegration] Using M2EPro integration', null, 'kinento.log', true );
-							$identifiers[] = $this->translate( $bankitem->getIdentifier() );
-						}
-						// Don't translate (normal)
-						else {
-							$identifiers[] = $bankitem->getIdentifier();
-						}
-					}
+            if ( $found == 0 ) {
 
-					// Iterate over all the identifiers (normal: just one, Banco Monex: multiple)
-					foreach ( $identifiers as $identifier ) {
-						if ( $found != 1 ) {
+                // Still not found anything, check for CUSTOMER-NAME (heavy on processing - not working for invoice-based or Banco Monex)
+                /*
+                if ( $idtype == 'order' && "Banco Monex" != $name_of_main_bank ) {
+                    $datacollection = Mage::getResourceModel( 'sales/order_grid_collection' );
+                    $orders = $datacollection->getItems();
+                    if ( !empty( $orders ) ) {
+                        $bankname = strtoupper( $bankitem->getName() );
+                        $initialmatch = round( strlen( $bankname )/2 );
+                        $topmatch = $initialmatch;
+                        $toporder = reset( $orders );
+                        foreach ( $orders as $order ) {
+                            $customer = Mage::getModel( 'customer/customer' )->load( $order->getCustomerId() );
+                            $ordername = strtoupper( $customer->getFirstname().' '.$customer->getLastname() );
+                            $match = c( $bankname, $ordername );
+                            if ( $match > $topmatch ) {
+                                $topmatch = $match;
+                                $toporder = $order;
+                            }
+                        }
+                        if ( $topmatch > $initialmatch ) {
+                            $found = 1;
+                            $this->bindorder( $toporder, $bankitem, 'guess' );
+                        }
+                    }
+                }
+                */
+            }
+        }
+    }
 
-							// Check for IDENTIFIER and AMOUNT
-							$collection = Mage::getResourceModel( $collectionname );
-							$datacollection = $collection->addFieldToFilter( 'increment_id', $identifier )->addFieldToFilter( 'grand_total', $amount );
-							$orders = $datacollection->getItems();
-							if ( !empty( $orders ) ) {
-								$found = 1;
-								if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
-								else { $order = reset( $orders ); }
-								Mage::log( '[kinento-bankintegration] Found match (ID and amount) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
-								$this->bindorder( $order, $bankitem, 'certain' );
-							}
+    protected function getIdentifiers($bankitem, $name_of_main_bank, $usem2epro) {
+        $identifiers = array();
 
-							else {
-								// Check for IDENTIFIER but not AMOUNT
-								$collection = Mage::getResourceModel( $collectionname );
-								$datacollection = $collection->addFieldToFilter( 'increment_id', $identifier );
-								$orders = $datacollection->getItems();
-								if ( !empty( $orders ) ) {
-									$found = 1;
-									if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
-									else { $order = reset( $orders ); }
-									Mage::log( '[kinento-bankintegration] Found match (ID only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
-									$this->bindorder( $order, $bankitem, 'guess' );
-								}
-								else {
+        // Banco Monex: Get a list of order IDs from the customer ID
+        if ( "Banco Monex" == $name_of_main_bank ) {
+            $customerid = $bankitem->getIdentifier();
+            $orders = Mage::getResourceModel('sales/order_collection')
+                ->addFieldToSelect('*')
+                ->addFieldToFilter('customer_id', $customerid )
+                ->getItems();
+            foreach ( $orders as $order ) {
+                $identifiers[] = $order->getIncrementId();
+            }
+        }
 
-									// Check for AMOUNT but not for IDENTIFIER
-									$collection = Mage::getResourceModel( $collectionname );
-									$datacollection = $collection->addFieldToFilter( 'grand_total', $amount );
-									$orders = $datacollection->getItems();
-									if ( !empty( $orders ) ) {
-										$found = 1;
-										if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
-										else { $order = reset( $orders ); }
-										Mage::log( '[kinento-bankintegration] Found match (amount only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
-										$this->bindorder( $order, $bankitem, 'guess' );
-									}
-								}
-							}
-						}
-					}
-				}
+        // Normal processing
+        else {
 
-				// Identifier is not present
-				else {
+            // Translate in case of using the M2E Pro module
+            if ( $usem2epro == 'enabled' ) {
+                Mage::log( '[kinento-bankintegration] Using M2EPro integration', null, 'kinento.log', true );
+                $identifiers[] = $this->translate( $bankitem->getIdentifier() );
+            }
+            // Don't translate (normal)
+            else {
+                $identifiers[] = $bankitem->getIdentifier();
+            }
+        }
 
-					// Check for AMOUNT but not for IDENTIFIER
-					$collection = Mage::getResourceModel( $collectionname );
-					$datacollection = $collection->addFieldToFilter( 'grand_total', $amount );
-					$orders = $datacollection->getItems();
-					if ( !empty( $orders ) ) {
-						$found = 1;
-						if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $orders )->getOrderIncrementId() ); }
-						else { $order = reset( $orders ); }
-						Mage::log( '[kinento-bankintegration] Found match (amount only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
-						$this->bindorder( $order, $bankitem, 'guess' );
-					}
-				}
-			}
-			if ( $found == 0 ) {
+        return $identifiers;
+    }
 
-				// Still not found anything, check for CUSTOMER-NAME (heavy on processing - not working for invoice-based or Banco Monex)
-				/*
-				if ( $idtype == 'order' && "Banco Monex" != $name_of_main_bank ) { 
-					$datacollection = Mage::getResourceModel( 'sales/order_grid_collection' );
-					$orders = $datacollection->getItems();
-					if ( !empty( $orders ) ) {
-						$bankname = strtoupper( $bankitem->getName() );
-						$initialmatch = round( strlen( $bankname )/2 );
-						$topmatch = $initialmatch;
-						$toporder = reset( $orders );
-						foreach ( $orders as $order ) {
-							$customer = Mage::getModel( 'customer/customer' )->load( $order->getCustomerId() );
-							$ordername = strtoupper( $customer->getFirstname().' '.$customer->getLastname() );
-							$match = c( $bankname, $ordername );
-							if ( $match > $topmatch ) {
-								$topmatch = $match;
-								$toporder = $order;
-							}
-						}
-						if ( $topmatch > $initialmatch ) {
-							$found = 1;
-							$this->bindorder( $toporder, $bankitem, 'guess' );
-						}
-					}
-				}
-				*/
-			}
-		}
-	}
+    // Function to perform the actual binding
+    public function bindorder( $order, $bankitem, $status ) {
+        $found = false;
+        $oldstatuses1 = explode( ',', Mage::getStoreConfig( 'bankintegration/statussettings/statusold1', $order->getStoreId() ) );
+        foreach ( $oldstatuses1 as $oldstatus ) {
+            if ( $oldstatus != 'disabled' ) {
+                if ( $order->getStatus() == $oldstatus ) {
+                    $this->binddata( $order, $bankitem, $status );
+                    $found = true;
+                }
+            }
+        }
+        if (!$found) {
+            $oldstatuses2 = explode( ',', Mage::getStoreConfig( 'bankintegration/statussettings/statusold2', $order->getStoreId() ) );
+            foreach ( $oldstatuses2 as $oldstatus ) {
+                if ( $oldstatus != 'disabled' ) {
+                    if ( $order->getStatus() == $oldstatus ) {
+                        $this->binddata( $order, $bankitem, $status );
+                        $found = true;
+                    }
+                }
+            }
+        }
 
-	// Function to perform the actual binding
-	public function bindorder( $order, $bankitem, $status ) {
-		$notfound = true;
-		$oldstatuses1 = explode( ',', Mage::getStoreConfig( 'bankintegration/statussettings/statusold1', $order->getStoreId() ) );
-		foreach ( $oldstatuses1 as $oldstatus ) {
-			if ( $oldstatus != 'disabled' ) {
-				if ( $order->getStatus() == $oldstatus ) {
-					$this->binddata( $order, $bankitem, $status );
-					$notfound = false;
-				}
-			}
-		}
-		if ($notfound) {
-			$oldstatuses2 = explode( ',', Mage::getStoreConfig( 'bankintegration/statussettings/statusold2', $order->getStoreId() ) );
-			foreach ( $oldstatuses2 as $oldstatus ) {
-				if ( $oldstatus != 'disabled' ) {
-					if ( $order->getStatus() == $oldstatus ) {
-						$this->binddata( $order, $bankitem, $status );
-					}
-				}
-			}
-		}
-	}
+        return $found;
+    }
 
 	// Function to set the data for a binding
 	public function binddata( $order, $bankitem, $status ) {
