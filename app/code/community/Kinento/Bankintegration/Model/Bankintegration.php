@@ -531,7 +531,6 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
             array_shift($data);
             array_shift($data);
             array_shift($data);
-            array_shift($data);
             array_pop($data);
             array_pop($data);
             array_pop($data);
