@@ -11,9 +11,9 @@
  * SOFTWARE.
  *
  * @category   Kinento
- * @package	Kinento_Bankintegration
+ * @package    Kinento_Bankintegration
  * @copyright  Copyright (c) 2009-2015 Kinento
- * @license	MIT license
+ * @license    MIT license
  *
  */
 
@@ -74,25 +74,25 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 		#echo "<pre>"; print_r($statement); echo "</pre>";
 
 		// Get the date
-		$date		= $statement->BookgDt->Dt;
+		$date        = $statement->BookgDt->Dt;
 		if (!$date) {
-			$date	  = reset( explode( 'T' , $statement->BookgDt->DtTm ) );
+			$date      = reset( explode( 'T' , $statement->BookgDt->DtTm ) );
 		}
 
 		// Get the amount
-		$amount	  = $transaction->AmtDtls->TxAmt->Amt;
+		$amount      = $transaction->AmtDtls->TxAmt->Amt;
 		if (!$amount) {
-			$amount	= $statement->Amt;
+			$amount    = $statement->Amt;
 		}
 
 		// Get the type
-		$type1	   = $statement->CdtDbtInd;
-		$type2	   = $statement->Sts;
+		$type1       = $statement->CdtDbtInd;
+		$type2       = $statement->Sts;
 
 		// Get the transfer's details
-		$name		= $transaction->RltdPties->Dbtr->Nm;
-		$account	 = $transaction->RltdPties->DbtrAcct->Id->IBAN;
-		$remarks	 = $transaction->RmtInf->Strd->CdtrRefInf->Ref;
+		$name        = $transaction->RltdPties->Dbtr->Nm;
+		$account     = $transaction->RltdPties->DbtrAcct->Id->IBAN;
+		$remarks     = $transaction->RmtInf->Strd->CdtrRefInf->Ref;
 		if (!$remarks) {
 			$remarks = $transaction->Refs->EndToEndId;
 		}
@@ -174,8 +174,8 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 					$result = '"';
 					$result .= $message[0][$i].'","';
 					$result .= $message[1][$i].'","';
-					$result .= $message[2]	.'","';
-					$result .= $message[3]	.'","';
+					$result .= $message[2]    .'","';
+					$result .= $message[3]    .'","';
 					$result .= $message[4][$i].'","';
 					$result .= $message[5][$i].'","';
 					$result .= $message[6][$i].'","';
@@ -370,11 +370,11 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 		}
 
 		// Gather information on the selected bank template
-		$bank_name		  = $banktemplate[0];
-		$bank_string		= $banktemplate[1];
-		$bank_separator	 = $banktemplate[2];
+		$bank_name          = $banktemplate[0];
+		$bank_string        = $banktemplate[1];
+		$bank_separator     = $banktemplate[2];
 		$bank_firstlineskip = $banktemplate[3];
-		$bank_remove		= $banktemplate[4];
+		$bank_remove        = $banktemplate[4];
 		Mage::log( '[kinento-bankintegration] Using template "'.$bank_name.'", "'.$bank_string.'", "'.$bank_separator.'", "'.$bank_remove.'"', null, 'kinento.log', true );
 
 		// Initialise
@@ -518,7 +518,6 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 
 		// Remove the first 14 and the last 3 lines, delete the line feeds, filter the negative entries for the 'Volksbank'
 		if ( $bank_name == "Volksbank" ) {
-			array_shift($data);
 			array_shift($data);
 			array_shift($data);
 			array_shift($data);
@@ -720,15 +719,15 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			// Continue with normal processing
 			$row = trim( $row );
 			if ( $firstline == false && !empty( $row ) ) {
-				$date	 = str_replace( $bank_remove, '', $array[$template[0]] );
-				$name	 = str_replace( $bank_remove, '', $array[$template[1]] );
+				$date     = str_replace( $bank_remove, '', $array[$template[0]] );
+				$name     = str_replace( $bank_remove, '', $array[$template[1]] );
 				$account  = str_replace( $bank_remove, '', $array[$template[2]] );
-				$type	 = str_replace( $bank_remove, '', $array[$template[3]] );
+				$type     = str_replace( $bank_remove, '', $array[$template[3]] );
 				if ( $bank_name != "BBVA Bancomer" && $bank_name != "Banco Monex" ) {
-					$amount = str_replace( ','		 , '.',$array[$template[4]] );
+					$amount = str_replace( ','         , '.',$array[$template[4]] );
 				}
 				else {
-					$amount = str_replace( ','		 , '', $array[$template[4]] );
+					$amount = str_replace( ','         , '', $array[$template[4]] );
 				}
 				$amount = str_replace( $bank_remove, '', $amount);
 				$mutation = str_replace( $bank_remove, '', $array[$template[5]] );
@@ -876,11 +875,11 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 
 				// Set the obtained data
 				$entry = array(
-					"date"	  => $date,
-					"name"	  => $name,
+					"date"      => $date,
+					"name"      => $name,
 					"account"   => $account,
-					"type"	  => $type,
-					"amount"	=> $amount,
+					"type"      => $type,
+					"amount"    => $amount,
 					"mutation"  => $mutation,
 					"remarks"   => $remarks,
 					"identifier"=> $identifier,
@@ -982,7 +981,7 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			if ( $baseonid == 'invoiceid' || $baseonid == 'orderandinvoiceid' ) {
 				array_push( $idtypes, 'invoice' );
 			}
-
+			
 			if ( $bankitem->getIdentifier() != ' ' && $bankitem->getIdentifier() != '' ) {
 				// Check for IDENTIFIER and AMOUNT
 				foreach ( $idtypes as $idtype ) {
