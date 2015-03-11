@@ -985,23 +985,18 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			if ( $bankitem->getIdentifier() != ' ' && $bankitem->getIdentifier() != '' ) {
 				// Check for IDENTIFIER and AMOUNT
 				foreach ( $idtypes as $idtype ) {
-					if ($idtype == 'order') {
-						$collectionname = 'sales/order_grid_collection';
-					} else {
-						$collectionname = 'sales/order_invoice_grid_collection';
-					}
 					$identifiers = $this-> getIdentifiers($bankitem, $name_of_main_bank, $usem2epro);
 					// Iterate over all the identifiers (normal: just one, Banco Monex: multiple)
 					foreach ( $identifiers as $identifier ) {
-						$collection = Mage::getResourceModel( $collectionname );
-						$datacollection = $collection->addFieldToFilter( 'increment_id', $identifier )->addFieldToFilter( 'grand_total', $amount );
-						$items = $datacollection->getItems();
+                        $collection = $this->getItemCollection($idtype, $identifier, $amount);
+						$items = $collection->getItems();
 						if ( !empty( $items ) ) {
 							if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $items )->getOrderIncrementId() ); }
 							else { $order = reset( $items ); }
 							Mage::log( '[kinento-bankintegration] Found match (ID and amount) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
 							if ($this->bindorder( $order, $bankitem, 'certain' )) {
-								return;
+								// Continue with the next bank item and do not return from the method.
+                                continue 3;
 							}
 						}
 					}
@@ -1009,23 +1004,18 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 
 				// Check for IDENTIFIER but not AMOUNT
 				foreach ( $idtypes as $idtype ) {
-					if ($idtype == 'order') {
-						$collectionname = 'sales/order_grid_collection';
-					} else {
-						$collectionname = 'sales/order_invoice_grid_collection';
-					}
 					$identifiers = $this-> getIdentifiers($bankitem, $name_of_main_bank, $usem2epro);
 					// Iterate over all the identifiers (normal: just one, Banco Monex: multiple)
 					foreach ( $identifiers as $identifier ) {
-						$collection = Mage::getResourceModel( $collectionname );
-						$datacollection = $collection->addFieldToFilter( 'increment_id', $identifier );
-						$items = $datacollection->getItems();
+                        $collection = $this->getItemCollection($idtype, $identifier);
+						$items = $collection->getItems();
 						if ( !empty( $items ) ) {
 							if ( $idtype == 'invoice' ) { $order = Mage::getModel( 'sales/order' )->loadByIncrementId( reset( $items )->getOrderIncrementId() ); }
 							else { $order = reset( $items ); }
 							Mage::log( '[kinento-bankintegration] Found match (ID only) with order ID: '.$order->getIncrementId(), null, 'kinento.log', true );
 							if ($this->bindorder( $order, $bankitem, 'guess' )) {
-								return;
+                                // Continue with the next bank item and do not return from the method.
+								continue 3;
 							}
 						}
 					}
@@ -1033,15 +1023,9 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 			}
 
 			foreach ( $idtypes as $idtype ) {
-				if ($idtype == 'order') {
-					$collectionname = 'sales/order_grid_collection';
-				} else {
-					$collectionname = 'sales/order_invoice_grid_collection';
-				}
 				// Check for AMOUNT but not for IDENTIFIER
-				$collection = Mage::getResourceModel($collectionname);
-				$datacollection = $collection->addFieldToFilter('grand_total', $amount);
-				$items = $datacollection->getItems();
+                $collection = $this->getItemCollection($idtype, null, $amount);
+				$items = $collection->getItems();
 				if (!empty($items)) {
 					if ($idtype == 'invoice') {
 						$order = Mage::getModel('sales/order')->loadByIncrementId(reset($items)->getOrderIncrementId());
@@ -1116,6 +1100,35 @@ class Kinento_Bankintegration_Model_Bankintegration extends Mage_Core_Model_Abst
 
 		return $identifiers;
 	}
+
+    protected function getItemCollection($idtype, $identifier = null, $grandTotal = null) {
+        $statuses1 = explode( ',', Mage::getStoreConfig( 'bankintegration/statussettings/statusold1' ) );
+        $statuses2 = explode( ',', Mage::getStoreConfig( 'bankintegration/statussettings/statusold2' ) );
+        $statuses = array_unique(array_merge($statuses1, $statuses2));
+
+        $orderCollection = Mage::getModel('sales/order')->getCollection()
+            ->addFieldToFilter('status', array('in' => $statuses));
+
+        if ($idtype == 'order') {
+            if (!empty($identifier)) {
+                $orderCollection->addFieldToFilter('increment_id', $identifier);
+            }
+            if (!empty($grandTotal)) {
+                $orderCollection->addFieldToFilter('grand_total', $grandTotal);
+            }
+            return $orderCollection;
+        }
+
+        $invoiceCollection = Mage::getModel('sales/order_invoice')->getCollection();
+        if (!empty($identifier)) {
+            $invoiceCollection->addFieldToFilter('increment_id', $identifier);
+        }
+        if (!empty($grandTotal)) {
+            $invoiceCollection->addFieldToFilter('grand_total', $grandTotal);
+        }
+        $invoiceCollection->addFieldToFilter('order_id', array('in' => $orderCollection->getAllIds()));
+        return $invoiceCollection;
+    }
 
 	// Function to perform the actual binding
 	public function bindorder( $order, $bankitem, $status ) {
