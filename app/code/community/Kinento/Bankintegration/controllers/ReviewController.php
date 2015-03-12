@@ -144,14 +144,14 @@ class Kinento_Bankintegration_ReviewController extends Mage_Adminhtml_Controller
 				foreach ( $oldstatuses1 as $oldstatus ) {
 					if ( $oldstatus != 'disabled' ) {
 						if ( $order->getStatus() == $newstatus1 ) {
-							$order->setStatus( $oldstatus );
+                            $order->addStatusHistoryComment('Status changed by Kinento_Bankintegration.', $oldstatus);
 						}
 					}
 				}
 				foreach ( $oldstatuses2 as $oldstatus ) {
 					if ( $oldstatus != 'disabled' ) {
 						if ( $order->getStatus() == $newstatus2 ) {
-							$order->setStatus( $oldstatus );
+                            $order->addStatusHistoryComment('Status changed by Kinento_Bankintegration.', $oldstatus);
 						}
 					}
 				}
