@@ -270,7 +270,7 @@ class Kinento_Bankintegration_BindController extends Mage_Adminhtml_Controller_A
 
 										// Set the new order state
 										Mage::log( '[kinento-bankintegration] Changing status to "'.$newstatus.'" (regular)', null, 'kinento.log', true );
-										$order->setStatus( $newstatus );
+                                        $order->addStatusHistoryComment('Status changed by Kinento_Bankintegration.', $newstatus);
 										$order->save();
 
 										// Now also create an invoice
