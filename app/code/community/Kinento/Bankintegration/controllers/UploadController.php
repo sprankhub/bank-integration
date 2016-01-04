@@ -59,7 +59,7 @@ class Kinento_Bankintegration_UploadController extends Mage_Adminhtml_Controller
 		$error = false;
 		try {
 			$uploader = new Varien_File_Uploader( 'bankfile'.$bankid );
-			$uploader->setAllowedExtensions( array( 'txt', 'csv', 'dat', 'DAT', 'TAB', 'exp', 'xls', 'mt940', '940', 'mt942', '942', 'v11', 'xml', 'XML' ) );
+			$uploader->setAllowedExtensions( array( 'txt', 'csv', 'dat', 'DAT', 'TAB', 'exp', 'xls', 'mt9', 'mt940', '940', 'mt942', '942', 'v11', 'xml', 'XML' ) );
 		}
 		catch ( Exception $ex ) {
 			$error = true;
