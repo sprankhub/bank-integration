@@ -1,5 +1,5 @@
-Bank Integration
-================
+[UNSUPPORTED] Bank Integration
+==============================
 
 From 2009 until 2014, Kinento has sold the Magento Bank Integration module for 229 euro per license. From 2015 onwards, updates are no longer provided by Kinento, but the module is instead available on GitHub free of charge. The code is released under the MIT open-source license and community patches and feature additions are encouraged.
 
